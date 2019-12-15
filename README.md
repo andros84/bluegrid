@@ -4,8 +4,8 @@ Requirements:
 * Ansible 
 
 # Download and start Terraform script
-* `git clone https://github.com/andrijapejdic/awsHaWP.git` - Clone this repo.
-* `cd awsHaWP`
+* `git clone https://github.com/andros84/bluegrid.git` - Clone this repo.
+* `cd bluegrid`
 * `terraform init` - Initialize terraform
 * `terraform apply` - Apply terraform execution plan.
 
