@@ -1,0 +1,56 @@
+---
+- name: Set timestamp in bash history
+  become: yes
+  become_user: "root"
+  become_method: sudo
+  shell: echo 'HISTTIMEFORMAT="%d/%m/%y %T "' >> /etc/bashrc
+
+- name: Install EPEL repo.
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: present
+   
+- name: Import EPEL GPG key.
+  rpm_key:
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+    state: present
+
+- name: Amazon system update
+  yum: 
+    name: "*"
+    state: latest
+    skip_broken: yes
+    update_cache: yes
+
+- name: Checking for prerequirements
+  yum:
+    name:
+      - libselinux-python
+      - python-pip
+      - unzip
+      - htop
+      - telnet
+      - vim
+      - tree
+      - mlocate
+    state: latest
+    skip_broken: yes
+    lock_timeout: 15
+ 
+#- name: Set hostname
+#  hostname:
+#    name: "{{ name }}-{{ dev_env }}-octopus-all"
+#  when: ansible_distribution == "CentOS" or ansible_distribution == "Amazon"
+
+- name: Install Screenfetch
+  get_url:
+    url: https://raw.githubusercontent.com/KittyKatt/screenFetch/master/screenfetch-dev
+    dest: /usr/local/bin/screenfetch
+    owner: "root"
+    group: "root"
+    mode: '0755'
+
+- name: Add screenfetch into .bash_profile
+  lineinfile:
+    path: /home/ec2-user/.bash_profile
+    line: 'screenfetch'

@@ -1,0 +1,29 @@
+---
+
+- name: Download WordPress latest version
+  get_url: 
+    url: http://wordpress.org/wordpress-latest.tar.gz 
+    dest: /var/www/wordpress.tar.gz 
+    force: yes
+
+#- name: Extract WordPress
+#  command: "tar xzf /var/www/html/wordpress.tar.gz -C /var/www/html --strip-components 1"
+
+- name: Unpack archive
+  unarchive:
+    src:  /var/www/wordpress.tar.gz
+    dest: /var/www/
+    owner: root
+    group: root
+    list_files: true
+    #mode: 0755 
+    remote_src: yes
+
+- name: Update nginx configuration 
+  template: 
+    src: wp-config.php
+    dest: /var/www/wordpress/
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx

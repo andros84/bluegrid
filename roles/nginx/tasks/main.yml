@@ -1,0 +1,41 @@
+--- # System configuration and updates
+- name: Get nginx release
+  shell: amazon-linux-extras install -y nginx1.12 php7.2 
+  when: ansible_distribution == 'Amazon'
+
+- name: Download php packages
+  yum:
+    name:
+      - php-gd 
+      - php-mbstring 
+      - php-mbstring 
+      - php-opcache 
+      - php-xml
+    state: latest
+    skip_broken: yes
+
+- name: Update nginx configuration 
+  template: 
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: Update conf.d configuration 
+  template: 
+    src: domain.conf
+    dest: /etc/nginx/conf.d/domain.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: Make my directory tree readable
+  file:
+    path: /var/www/
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+    owner: root
+    group: root

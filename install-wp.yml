@@ -1,0 +1,12 @@
+---
+- name: Setup Web server for Octopus Single Server environment
+  hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  remote_user: ec2-user
+  gather_facts: yes
+  roles:
+    - common
+    - nginx
+    - wp
