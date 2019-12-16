@@ -132,7 +132,7 @@ resource "aws_security_group" "ec2-ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "TCP"
-    cidr_blocks = ["217.24.0.0/16","95.180.103.76/32","${var.your_public_ip}"]
+    cidr_blocks = ["95.180.103.76/32","${var.your_public_ip}"]
   }
 
   ingress {
