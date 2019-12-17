@@ -6,9 +6,6 @@
     dest: /var/www/wordpress.tar.gz 
     force: yes
 
-#- name: Extract WordPress
-#  command: "tar xzf /var/www/html/wordpress.tar.gz -C /var/www/html --strip-components 1"
-
 - name: Unpack archive
   unarchive:
     src:  /var/www/wordpress.tar.gz
